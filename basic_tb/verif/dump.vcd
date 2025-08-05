@@ -1,0 +1,274 @@
+$date
+	Tue Aug  5 19:02:46 2025
+$end
+$version
+	ModelSim Version 2020.1
+$end
+$timescale
+	1ps
+$end
+
+$scope module tb_apb_mem $end
+$var parameter 32 ! ADDR_WIDTH $end
+$var parameter 32 " DATA_WIDTH $end
+$var reg 1 # pclk $end
+$var reg 1 $ PRESETn $end
+$var reg 10 % paddr [9:0] $end
+$var reg 1 & pwrite $end
+$var reg 1 ' psel $end
+$var reg 1 ( penable $end
+$var reg 32 ) pwdata [31:0] $end
+$var reg 32 * prdata [31:0] $end
+$var reg 1 + pready $end
+
+$scope task apb_write $end
+$var reg 10 , addr [9:0] $end
+$var reg 32 - data [31:0] $end
+$upscope $end
+
+$scope task apb_read $end
+$var reg 10 . addr [9:0] $end
+$upscope $end
+
+$scope module dut $end
+$var parameter 32 / ADDR_WIDTH $end
+$var parameter 32 0 DATA_WIDTH $end
+$var wire 1 1 pclk $end
+$var wire 1 2 PRESETn $end
+$var wire 1 3 paddr [9] $end
+$var wire 1 4 paddr [8] $end
+$var wire 1 5 paddr [7] $end
+$var wire 1 6 paddr [6] $end
+$var wire 1 7 paddr [5] $end
+$var wire 1 8 paddr [4] $end
+$var wire 1 9 paddr [3] $end
+$var wire 1 : paddr [2] $end
+$var wire 1 ; paddr [1] $end
+$var wire 1 < paddr [0] $end
+$var wire 1 = pwrite $end
+$var wire 1 > psel $end
+$var wire 1 ? penable $end
+$var wire 1 @ pwdata [31] $end
+$var wire 1 A pwdata [30] $end
+$var wire 1 B pwdata [29] $end
+$var wire 1 C pwdata [28] $end
+$var wire 1 D pwdata [27] $end
+$var wire 1 E pwdata [26] $end
+$var wire 1 F pwdata [25] $end
+$var wire 1 G pwdata [24] $end
+$var wire 1 H pwdata [23] $end
+$var wire 1 I pwdata [22] $end
+$var wire 1 J pwdata [21] $end
+$var wire 1 K pwdata [20] $end
+$var wire 1 L pwdata [19] $end
+$var wire 1 M pwdata [18] $end
+$var wire 1 N pwdata [17] $end
+$var wire 1 O pwdata [16] $end
+$var wire 1 P pwdata [15] $end
+$var wire 1 Q pwdata [14] $end
+$var wire 1 R pwdata [13] $end
+$var wire 1 S pwdata [12] $end
+$var wire 1 T pwdata [11] $end
+$var wire 1 U pwdata [10] $end
+$var wire 1 V pwdata [9] $end
+$var wire 1 W pwdata [8] $end
+$var wire 1 X pwdata [7] $end
+$var wire 1 Y pwdata [6] $end
+$var wire 1 Z pwdata [5] $end
+$var wire 1 [ pwdata [4] $end
+$var wire 1 \ pwdata [3] $end
+$var wire 1 ] pwdata [2] $end
+$var wire 1 ^ pwdata [1] $end
+$var wire 1 _ pwdata [0] $end
+$var reg 32 ` prdata [31:0] $end
+$var reg 1 a pready $end
+$var reg 2 b current_state [1:0] $end
+$var reg 2 c next_state [1:0] $end
+$upscope $end
+$upscope $end
+
+$scope begin std $end
+$upscope $end
+$enddefinitions $end
+#0
+$dumpvars
+0#
+0$
+b0 %
+0&
+0'
+0(
+b0 )
+b0 *
+0+
+b0 `
+0a
+b0 b
+b0 c
+bx ,
+bx -
+bx .
+b1010 !
+b100000 "
+b1010 /
+b100000 0
+01
+02
+0<
+0;
+0:
+09
+08
+07
+06
+05
+04
+03
+0=
+0>
+0?
+0_
+0^
+0]
+0\
+0[
+0Z
+0Y
+0X
+0W
+0V
+0U
+0T
+0S
+0R
+0Q
+0P
+0O
+0N
+0M
+0L
+0K
+0J
+0I
+0H
+0G
+0F
+0E
+0D
+0C
+0B
+0A
+0@
+$end
+#5000
+1#
+11
+#10000
+0#
+01
+#15000
+1#
+11
+#20000
+b101 ,
+b10101011110011010001001000110100 -
+0#
+01
+1$
+12
+#25000
+1#
+11
+b101 %
+b10101011110011010001001000110100 )
+1&
+1'
+1]
+1[
+1Z
+1V
+1S
+1O
+1M
+1L
+1I
+1H
+1G
+1F
+1D
+1B
+1@
+1<
+1:
+1=
+1>
+b1 c
+#30000
+0#
+01
+#35000
+1#
+11
+b1 b
+1(
+1a
+1+
+1?
+b0 c
+#40000
+0#
+01
+#45000
+1#
+11
+b101 .
+b0 b
+0'
+0(
+0a
+0+
+0>
+0?
+#50000
+0#
+01
+#55000
+1#
+11
+0&
+1'
+0=
+1>
+b10 c
+#60000
+0#
+01
+#65000
+1#
+11
+b10 b
+1(
+1a
+1+
+1?
+b10101011110011010001001000110100 `
+b10101011110011010001001000110100 *
+b0 c
+#70000
+0#
+01
+#75000
+1#
+11
+b0 b
+0'
+0(
+b0 `
+0a
+0+
+b0 *
+0>
+0?
+#80000
+0#
+01

@@ -1,0 +1,5 @@
++incdir+../src
++incdir+../verif
+
+../src/apb_mem.sv
+../verif/tb_apb_mem.sv

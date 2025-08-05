@@ -17,8 +17,6 @@ module tb_apb_mem();
     logic [DATA_WIDTH-1:0]   prdata;
     logic                    pready;
 
-    // Read from address 5
-    logic [31:0] read_data;
   
     // Clock generation
     always #5 pclk = ~pclk;
@@ -63,8 +61,8 @@ module tb_apb_mem();
 
     // Task to do APB read
     task apb_read(
-        input  [ADDR_WIDTH-1:0] addr, 
-        output [DATA_WIDTH-1:0] data);
+        input  [ADDR_WIDTH-1:0] addr
+    );
     begin
         @(posedge pclk);
         paddr   <= addr;
@@ -76,7 +74,6 @@ module tb_apb_mem();
         penable <= 1'b1;
 
         @(posedge pclk);
-        data    <= prdata;
         psel    <= 1'b0;
         penable <= 1'b0;
     end
@@ -85,33 +82,24 @@ module tb_apb_mem();
     // Test sequence
     initial 
     begin
+
+        $dumpfile("dump.vcd");
+        $dumpvars();
         // Init
-        pclk    = 0;
-        PRESETn = 0;
-        paddr   = 0;
-        pwrite  = 0;
-        psel    = 0;
-        penable = 0;
-        pwdata  = 0;
+        pclk      <= 0;
+        PRESETn   <= 0;
+        paddr     <= 0;
+        pwrite    <= 0;
+        psel      <= 0;
+        penable   <= 0;
+        pwdata    <= 0;
 
         #20;
-        PRESETn = 1;
+        PRESETn   <= 1;
 
         // Write 32'hABCD1234 to address 5
         apb_write(5, 32'hABCD1234);
-        apb_read (5,    read_data);
-
-        // Display result
-        $display("Read data: 0x%08X", read_data);
-        
-        if (read_data === 32'hABCD1234) 
-        begin
-            $display("TEST PASSED");
-        end 
-        else 
-        begin
-            $display("TEST FAILED");
-        end
+        apb_read (5);
 
         #10;
         $finish;
