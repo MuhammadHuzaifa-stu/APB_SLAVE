@@ -1,7 +1,7 @@
 module apb_mem
 # (
-    parameter ADDR_WIDTH = 10,
-    parameter DATA_WIDTH = 32
+    localparam ADDR_WIDTH = 10,
+    localparam DATA_WIDTH = 32
 ) (
     input  logic                  pclk,
     input  logic                  PRESETn,
@@ -86,7 +86,14 @@ module apb_mem
     // write data to mem
     always_ff @( posedge pclk or negedge PRESETn ) 
     begin
-        if (current_state == W_ENABLE && psel && penable && pwrite)
+        if (~PRESETn)
+        begin
+            for (int unsigned i=0; i<2**ADDR_WIDTH; i++)
+            begin
+                mem[i] <= 'd0;
+            end
+        end
+        else if (current_state == W_ENABLE && psel && penable && pwrite)
         begin
             mem[paddr] <= pwdata;
         end

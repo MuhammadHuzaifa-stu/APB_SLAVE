@@ -1,6 +1,6 @@
 interface apb_if #(
-    parameter ADDR_WIDTH = 10,
-    parameter DATA_WIDTH = 32
+    localparam ADDR_WIDTH = 10,
+    localparam DATA_WIDTH = 32
 )(
     input logic pclk,
     input logic PRESETn

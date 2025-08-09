@@ -1,45 +1,49 @@
-`include "uvm_macros.svh"
+`timescale 1ns/1ps
+
 import uvm_pkg::*;
 
 module top_tb();
 
-  logic pclk;
-  logic PRESETn;
+  // Clock & Reset
+  bit pclk;
+  bit presetn;
 
-  apb_if vif(pclk, PRESETn);  // Instantiate virtual interface
-
-  // DUT instantiation
-  apb_mem dut (
-    .pclk   (pclk       ),
-    .PRESETn(PRESETn    ),
-    .paddr  (vif.paddr  ),
-    .pwrite (vif.pwrite ),
-    .psel   (vif.psel   ),
-    .penable(vif.penable),
-    .pwdata (vif.pwdata ),
-
-    .prdata (vif.prdata ),
-    .pready (vif.pready )
-  );
-
-  // Clock generator
-  initial pclk = 0;
-  always #5 pclk = ~pclk;
-
-  // Reset generation
   initial 
   begin
-    PRESETn = 1;
-    #10 PRESETn = 0;
+    pclk = 0;
+    forever #5 pclk = ~pclk; // 100 MHz clock
   end
 
-  // UVM run
   initial 
   begin
-  
-    uvm_config_db #(virtual apb_if)::set(null, "*", "vif", vif);
+    presetn = 1;
+    #2  presetn = 0;
+    #20 presetn = 1;
+  end
+
+  // APB Interface instance
+  apb_if apb_vif (pclk, presetn);
+
+  // DUT instance (if parameterized)
+  apb_mem dut (
+    .pclk     (pclk           ),
+    .PRESETn  (presetn        ),
+    .paddr    (apb_vif.paddr  ),
+    .pwdata   (apb_vif.pwdata ),
+    .prdata   (apb_vif.prdata ),
+    .pwrite   (apb_vif.pwrite ),
+    .psel     (apb_vif.psel   ),
+    .penable  (apb_vif.penable),
+    .pready   (apb_vif.pready )
+  );
+
+  // Set interface handle in UVM config DB
+  initial 
+  begin
+    uvm_config_db#(virtual apb_if)::set(null, "uvm_test_top.env.agent", "vif", apb_vif);
+
+    // Run parameterized test
     run_test("apb_test");
-  
   end
 
 endmodule

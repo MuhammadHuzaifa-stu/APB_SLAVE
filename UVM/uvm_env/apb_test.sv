@@ -1,3 +1,6 @@
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
 class apb_test extends uvm_test;
   
   `uvm_component_utils(apb_test)
@@ -17,10 +20,13 @@ class apb_test extends uvm_test;
     apb_sequence seq;
     phase.raise_objection(this);
 
-    seq = apb_sequence::type_id::create("seq", this);
+    seq = apb_sequence::type_id::create("seq");
+    if (!seq.randomize()) begin
+      `uvm_error("SEQ", "Sequence randomization failed!")
+    end
     seq.start(env.agent.seqr);
 
     phase.drop_objection(this);
   endtask
 
-endclass
+endclass : apb_test
