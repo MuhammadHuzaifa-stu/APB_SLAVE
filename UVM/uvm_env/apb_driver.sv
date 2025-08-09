@@ -24,7 +24,7 @@ class apb_driver extends uvm_driver #(apb_seq_item);
             vif.penable <= 'd0;
             vif.paddr   <= req.addr;
             vif.pwrite  <= req.write;
-            vif.pwdata  <= req.write ? req.wdata : 'd0;
+            vif.pwdata  <= req.write ? req.data : 'd0;
 
             @(posedge vif.pclk);
             vif.penable <= 'd1;

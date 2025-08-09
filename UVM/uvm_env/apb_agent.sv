@@ -1,6 +1,11 @@
+`include "uvm_macros.svh"
+import uvm_pkg::*;
+
 class apb_agent extends uvm_agent;
     
     `uvm_component_utils(apb_agent)
+    
+    virtual apb_if vif;
 
     apb_driver drv;
     apb_sequencer seqr;
@@ -16,12 +21,12 @@ class apb_agent extends uvm_agent;
         seqr = apb_sequencer::type_id::create("seqr", this);
         mon = apb_monitor::type_id::create("mon", this);
 
-        `uvm_config_db #(virtual apb_if)::set(this, "drv", "vif", vif)
-        `uvm_config_db #(virtual apb_if)::set(this, "mon", "vif", vif)        
+        uvm_config_db #(virtual apb_if)::set(this, "drv", "vif", vif);
+        uvm_config_db #(virtual apb_if)::set(this, "mon", "vif", vif);       
     endfunction
 
     function void connect_phase(uvm_phase phase);
         super.connect_phase(phase);
-        drv.seq_item_port.connect(seqr.seq_item_export)
+        drv.seq_item_port.connect(seqr.seq_item_export);
     endfunction
 endclass //apb_agent extends uvm_agent

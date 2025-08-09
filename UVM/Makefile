@@ -1,20 +1,31 @@
-# Makefile with run directory
-UVM_HOME ?= $(shell dirname $(shell which vcs))/../uvm-1.2
-VCS_OPTS = -full64 -sverilog +incdir+$(UVM_HOME)/src \
-           +incdir+./rtl +incdir+./tb +incdir+./uvm_env \
-           -ntb_opts uvm-1.2 -timescale=1ns/1ps
+TOP_TB       = top_tb
+FLIST        = flist.f
+BUILD_DIR    = run
+SNAPSHOT     = top_tb_snapshot
+SIM_TIME     = 1us
+UVM_VERBOSITY= UVM_MEDIUM
+SEED         = 1
 
-FLIST = flist.f
-BUILD_DIR = run
+# Vivado sim logs
+SIM_LOG      = -log $(BUILD_DIR)/simulate.log
+ELAB_LOG     = -log $(BUILD_DIR)/elaborate.log
+XVLOG_LOG    = -log $(BUILD_DIR)/xvlog.log
 
-comp:
-	mkdir -p $(BUILD_DIR)
-	vcs $(VCS_OPTS) -f $(FLIST) -o $(BUILD_DIR)/simv
+.PHONY: all compile elaborate run clean
 
-run:
-	cd $(BUILD_DIR) && ./simv +UVM_VERBOSITY=UVM_MEDIUM | tee sim.log
+all: run
 
-rerun: clean comp run
+compile: clean
+	@mkdir -p $(BUILD_DIR)
+	xvlog -sv -f $(FLIST) -L uvm $(XVLOG_LOG)
+
+elaborate: compile
+	xelab $(TOP_TB) -s $(SNAPSHOT) -timescale 1ns/1ns -L uvm $(ELAB_LOG)
+
+run: elaborate
+	xsim $(SNAPSHOT) --sv_seed $(SEED) \
+	    -testplusarg UVM_VERBOSITY=$(UVM_VERBOSITY) \
+	    -runall $(SIM_LOG)
 
 clean:
-	rm -rf $(BUILD_DIR) csrc ucli.key simv simv.daidir *.log
+	rm -rf $(BUILD_DIR) xsim.dir *.jou *.log *.pb *.wdb

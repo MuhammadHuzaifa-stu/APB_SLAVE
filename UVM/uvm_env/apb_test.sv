@@ -17,7 +17,7 @@ class apb_test extends uvm_test;
     apb_sequence seq;
     phase.raise_objection(this);
 
-    seq = apb_sequence::type_id::create("seq");
+    seq = apb_sequence::type_id::create("seq", this);
     seq.start(env.agent.seqr);
 
     phase.drop_objection(this);
